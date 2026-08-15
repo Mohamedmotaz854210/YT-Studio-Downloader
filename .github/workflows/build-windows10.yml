@@ -1,7 +1,10 @@
 name: Build YT Studio Downloader - Windows 10 x64
 
-on:
+'on':
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -23,14 +26,7 @@ jobs:
         run: dotnet build YTStudioDownloader.csproj --configuration Release --no-restore
 
       - name: Publish Windows x64
-        run: >
-          dotnet publish YTStudioDownloader.csproj
-          --configuration Release
-          --runtime win-x64
-          --self-contained true
-          --output publish
-          -p:PublishSingleFile=true
-          -p:IncludeNativeLibrariesForSelfExtract=true
+        run: dotnet publish YTStudioDownloader.csproj --configuration Release --runtime win-x64 --self-contained true --output publish -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
